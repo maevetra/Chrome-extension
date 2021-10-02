@@ -1,0 +1,29 @@
+{
+  "manifest_version": 3,
+  "name": "Flashcard Popup",
+  "description": "Occasional pop up message to help reviewing",
+  "version": "1.0.0",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "48": "icon48.png"
+  },
+  "permissions": [
+    "activeTab",
+    "tabs",
+    "storage",
+    "notifications",
+    "background"
+  ],
+  "host_permissions": [
+    "http://127.0.0.1:8000/"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+ 
+  "options_page": "options.html"
+  
+}
