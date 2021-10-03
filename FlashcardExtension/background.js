@@ -82,8 +82,11 @@ var currentQuizlet;
 				//wait till newtab.js is running and listening
 				setTimeout(function(){
 					chrome.tabs.sendMessage(tab.id, 
-					{type: 'display-text', message: flashCard});
-				}, 1000);
+					{type: 'display-text', message: flashCard},
+					(response) => {
+						console.log(response); //TODO: test
+					});
+				}, 500);
 			
 			});
 		

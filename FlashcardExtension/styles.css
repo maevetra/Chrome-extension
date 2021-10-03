@@ -10,13 +10,29 @@ body {
     text-align: center;
 }
 
-
-.main{
-    width:200px;
-    height:200px;
-    position: fixed;
+.flashcard {
+    background-color: lightgrey;
+    border: 3px solid green;
+    width: 400px;
+    height: 400px;
     top: 50%;
     left: 50%;
-    margin-top: -100px;
-    margin-left: -100px;
+    position: fixed;
+    transform: translate(-50%, -50%);
 }
+.main{
+    width:200px;
+    height: auto;
+    margin: 0 auto;
+    float: left;
+    top: 20%;
+    left: 20%;
+    padding: 25px;
+    position: relative;
+    
+}
+
+h3 {
+    text-align: center;
+}
+

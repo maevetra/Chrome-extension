@@ -15,7 +15,7 @@ $(function(){
                             }
                             chrome.notifications.create(notif);
                         }
-                        );
+            );
         }
 
         $('#quizletURL').val('');
