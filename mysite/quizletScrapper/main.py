@@ -1,7 +1,6 @@
 from quizletScrapper.quizlet_scrapper import *
 from quizletScrapper.classes import *
 import requests
-import xlsxwriter
 import json
 
 def main(URL):

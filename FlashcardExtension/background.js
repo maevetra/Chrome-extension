@@ -1,5 +1,23 @@
 var serverhost = 'http://127.0.0.1:8000';
 var currentQuizlet;
+var repeat = 15; //default value of repeatAlarm
+const readLocalStorage = async function(key) {
+	return new Promise((resolve, reject) => {
+	  try {
+		chrome.storage.sync.get(key, function(value) {
+		  resolve(value);
+		});
+	  } catch (ex) {
+		reject(ex);
+	  }
+	});
+};
+const deck = [];
+const initDeck = getDeck().then(result => {
+	Object.assign(deck, result[0]);
+});
+
+var session = false;
 
 	/* Background listener to receive message from popup, 
 	*  will repsond async
@@ -27,6 +45,9 @@ var currentQuizlet;
 					}, 1000);
 				})
 				.catch(error => console.log(error))
+			} else if(request.type == 'create-alarm') {
+				repeat = parseInt(request.message);
+				chrome.alarms.create("RepeatAlarm", {periodInMinutes: repeat});
 			}
 	});
 
@@ -37,44 +58,56 @@ var currentQuizlet;
 			}
 	});
 
+	chrome.alarms.onAlarm.addListener(function(alarm) {
+		async () => {
+			try {
+				await initDeck;
+			} catch (e){
+				console.log(e);
+			}
+			
+		}	
+
+		setTimeout(function(){
+			reviewAlg();
+		},500);
+		
+	});
+
 	
 
 	//start a study session
 	
-	function start_session(){
+	async function start_session(){
+		try {
+			await initDeck;
+		} catch (e){
+			console.log(e);
+		}
 		console.log("Start a session");
-		var deck;
-		getDeck()
-			.then(function(result) {
-				deck = result[0];
-			})
-			.then(function() {
-				console.log(deck);
-			})
-			.finally(function() {
-				reviewAlg(deck);
-			})
-
+		session = true;
+		chrome.alarms.create("RepeatAlarm", {periodInMinutes: repeat});
+		
+		setTimeout(function(){
+			reviewAlg();
+		},500);
+		
 	}
+
+	
 
 	async function getDeck(){
+		try {
+			await readLocalStorage;
+		} catch (e) {
+			console.log(e)
+		}
 		return Object.values(await readLocalStorage(currentQuizlet));
 	}
-	
-	const readLocalStorage = async function(key) {
-		return new Promise((resolve, reject) => {
-		  try {
-			chrome.storage.sync.get(key, function(value) {
-			  resolve(value);
-			});
-		  } catch (ex) {
-			reject(ex);
-		  }
-		});
-	};
 
 
-	function reviewAlg(deck) {
+	function reviewAlg() {
+		console.log(deck);
 		var index = getRndInteger(0, deck.length-1);
 		var flashCard = deck[index];
 		chrome.tabs.create({active: true, url: chrome.runtime.getURL('newtab.html')},
@@ -82,11 +115,8 @@ var currentQuizlet;
 				//wait till newtab.js is running and listening
 				setTimeout(function(){
 					chrome.tabs.sendMessage(tab.id, 
-					{type: 'display-text', message: flashCard},
-					(response) => {
-						console.log(response); //TODO: test
-					});
-				}, 500);
+					{type: 'display-text', message: flashCard});
+				}, 200);
 			
 			});
 		

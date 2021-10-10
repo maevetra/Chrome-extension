@@ -5,9 +5,9 @@ $(document).ready(function() {
     chrome.runtime.onMessage.addListener((request, sender, sendReponse) => {
         currCard = request.message;
         $('#definition').html(currCard.definition);
-        waitForIt();
-        sendReponse(correct);
-        return true; 
+        //waitForIt();
+        //sendReponse(correct);
+        //return true; 
     });
 
     function waitForIt(){
