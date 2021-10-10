@@ -4,8 +4,6 @@ Simple Chrome extension that takes Quizlet URL, parses the flashcards into a JSO
 The goal is to make reviewing easier without allocating a separate session. Users will be asked to provide answers to flashcards in the deck that they choose periodically when they're using Chrome.
 
 ### todos
-- [ ] loop reviewAlgorithm   
-- [ ] options page to store/switch between quizlets and set due dates for quizlet 
 - [ ] support multiple quizlets in storage
 - [ ] more scientific reviewing method - spaced repetition etc.  
 - [ ] translate backend to cloud serverless functions   
@@ -14,3 +12,5 @@ The goal is to make reviewing easier without allocating a separate session. User
 - [x] backend Quizlet Scrapper  
 - [x] backend-frontend communication  
 - [x] basic HTML/CSS frontend  
+- [x] loop reviewAlgorithm   
+- [x] options page to store/switch between quizlets and set due dates for quizlet 
